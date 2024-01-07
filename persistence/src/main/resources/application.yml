@@ -1,0 +1,12 @@
+logging:
+  level:
+    root: INFO
+  pattern:
+    console: "%d{mm:ss} [%thread] - %m%n"
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: wooman

@@ -1,0 +1,10 @@
+#logging:
+#  level:
+#    root: INFO
+#  pattern:
+#    console: "%d{mm:ss} [%thread] - %m%n"
+
+spring:
+  data:
+    mongodb:
+      uri:  mongodb://root:1234@localhost:27017/wooman?authSource=admin
