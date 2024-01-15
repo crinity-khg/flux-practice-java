@@ -8,3 +8,16 @@ spring:
   data:
     mongodb:
       uri:  mongodb://root:1234@localhost:27017/wooman?authSource=admin
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      image:
+        sliding-window-size: 4
+        automatic-transition-from-open-to-half-open-enabled: true
+        permitted-number-of-calls-in-half-open-state: 4
+        wait-duration-in-open-state: 3s
+  timelimiter:
+    instances:
+      image:
+        timeout-duration: 1s
