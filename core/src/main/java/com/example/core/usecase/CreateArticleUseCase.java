@@ -3,6 +3,8 @@ package com.example.core.usecase;
 import com.example.core.entity.Article;
 import com.example.core.entity.ArticleThumbnail;
 import com.example.core.entity.ArticleThumbnailIdOnly;
+import com.example.core.publisher.ArticleCreatedEvent;
+import com.example.core.publisher.ArticleEventPublisher;
 import com.example.core.repository.ArticleRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 public class CreateArticleUseCase {
 
     private final ArticleRepository articleRepository;
+    private final ArticleEventPublisher articleEventPublisher;
+
 
     @Data
     public static class Input {
@@ -39,6 +43,10 @@ public class CreateArticleUseCase {
                 input.creatorId
         );
 
-        return articleRepository.save(newArticle);
+        return articleRepository.save(newArticle)
+                .doOnNext(article -> {
+                    var event = new ArticleCreatedEvent(article.getId(), article.getCreatorId());
+                    articleEventPublisher.publish(event);
+                });
     }
 }
